@@ -97,7 +97,7 @@ where
 
 #[cfg(test)]
 mod test {
-    use crate::AvailConfig;
+    use avail_subxt::AvailConfig;
     use subxt::ext::sp_core::ecdsa;
 
     use super::*;

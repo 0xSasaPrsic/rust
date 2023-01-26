@@ -14,27 +14,11 @@ use subxt::{
         },
     },
     tx::{Era, ExtrinsicParams, PlainTip},
-    Config,
+    
 };
 
-#[subxt::subxt(runtime_metadata_path = "metadata/avail.dev.metadata.scale")]
-pub mod avail {}
+type AvailConfig = avail_subxt::AvailConfig;
 
-#[derive(Clone, Debug, Default)]
-pub struct AvailConfig;
-
-impl Config for AvailConfig {
-    type AccountId = AccountId32;
-    type Address = MultiAddress<Self::AccountId, u32>;
-    type BlockNumber = u32;
-    type Extrinsic = AvailExtrinsic;
-    type ExtrinsicParams = AvailExtrinsicParams;
-    type Hash = H256;
-    type Hashing = BlakeTwo256;
-    type Header = DaHeader;
-    type Index = u32;
-    type Signature = MultiSignature;
-}
 
 #[derive(Serialize, Debug, Clone)]
 pub enum AvailExtrinsic {
