@@ -14,11 +14,9 @@ use subxt::{
         },
     },
     tx::{Era, ExtrinsicParams, PlainTip},
-    
 };
 
 type AvailConfig = avail_subxt::AvailConfig;
-
 
 #[derive(Serialize, Debug, Clone)]
 pub enum AvailExtrinsic {

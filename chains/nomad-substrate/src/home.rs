@@ -30,8 +30,8 @@ const UPDATE_MAX_INDEX: u32 = 1000;
 pub struct SubstrateHomeIndexer<T: Config>(NomadOnlineClient<T>);
 
 impl<T> SubstrateHomeIndexer<T>
-    where
-        T: Config,
+where
+    T: Config,
 {
     /// Instantiate a new SubstrateHomeIndexer object
     pub fn new(client: NomadOnlineClient<T>) -> Self {
@@ -40,8 +40,8 @@ impl<T> SubstrateHomeIndexer<T>
 }
 
 impl<T> std::ops::Deref for SubstrateHomeIndexer<T>
-    where
-        T: Config,
+where
+    T: Config,
 {
     type Target = NomadOnlineClient<T>;
     fn deref(&self) -> &Self::Target {
@@ -50,19 +50,19 @@ impl<T> std::ops::Deref for SubstrateHomeIndexer<T>
 }
 
 impl<T> std::fmt::Debug for SubstrateHomeIndexer<T>
-    where
-        T: Config,
+where
+    T: Config,
 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SubstrateHomeIndexer", )
+        write!(f, "SubstrateHomeIndexer",)
     }
 }
 
 #[async_trait]
 impl<T> CommonIndexer for SubstrateHomeIndexer<T>
-    where
-        T: Config + Send + Sync,
-        T::BlockNumber: std::convert::TryInto<u32> + Send + Sync,
+where
+    T: Config + Send + Sync,
+    T::BlockNumber: std::convert::TryInto<u32> + Send + Sync,
 {
     type Error = SubstrateError;
 
@@ -97,9 +97,9 @@ impl<T> CommonIndexer for SubstrateHomeIndexer<T>
 
 #[async_trait]
 impl<T> HomeIndexer for SubstrateHomeIndexer<T>
-    where
-        T: Config + Send + Sync,
-        T::BlockNumber: std::convert::TryInto<u32> + Send + Sync,
+where
+    T: Config + Send + Sync,
+    T::BlockNumber: std::convert::TryInto<u32> + Send + Sync,
 {
     #[tracing::instrument(err, skip(self))]
     async fn fetch_sorted_messages(
@@ -135,9 +135,9 @@ pub struct SubstrateHome<T: Config> {
 }
 
 impl<T> SubstrateHome<T>
-    where
-        T: Config,
-        <T as Config>::BlockNumber: TryInto<u32>,
+where
+    T: Config,
+    <T as Config>::BlockNumber: TryInto<u32>,
 {
     /// Instantiate a new SubstrateHome object
     pub fn new(
@@ -171,8 +171,8 @@ impl<T> SubstrateHome<T>
 }
 
 impl<T> std::ops::Deref for SubstrateHome<T>
-    where
-        T: Config,
+where
+    T: Config,
 {
     type Target = NomadOnlineClient<T>;
     fn deref(&self) -> &Self::Target {
@@ -181,8 +181,8 @@ impl<T> std::ops::Deref for SubstrateHome<T>
 }
 
 impl<T> std::fmt::Debug for SubstrateHome<T>
-    where
-        T: Config,
+where
+    T: Config,
 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
@@ -194,8 +194,8 @@ impl<T> std::fmt::Debug for SubstrateHome<T>
 }
 
 impl<T> std::fmt::Display for SubstrateHome<T>
-    where
-        T: Config,
+where
+    T: Config,
 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
@@ -208,15 +208,15 @@ impl<T> std::fmt::Display for SubstrateHome<T>
 
 #[async_trait]
 impl<T> Common for SubstrateHome<T>
-    where
-        T: Config + Send + Sync,
-        <<T as Config>::ExtrinsicParams as ExtrinsicParams<
-            <T as Config>::Index,
-            <T as Config>::Hash,
-        >>::OtherParams: std::default::Default + Send + Sync,
-        <T as Config>::Extrinsic: Send + Sync,
-        <T as Config>::Hash: Into<H256>,
-        <T as Config>::BlockNumber: TryInto<u32>,
+where
+    T: Config + Send + Sync,
+    <<T as Config>::ExtrinsicParams as ExtrinsicParams<
+        <T as Config>::Index,
+        <T as Config>::Hash,
+    >>::OtherParams: std::default::Default + Send + Sync,
+    <T as Config>::Extrinsic: Send + Sync,
+    <T as Config>::Hash: Into<H256>,
+    <T as Config>::BlockNumber: TryInto<u32>,
 {
     type Error = SubstrateError;
 
@@ -275,15 +275,15 @@ impl<T> Common for SubstrateHome<T>
 
 #[async_trait]
 impl<T> Home for SubstrateHome<T>
-    where
-        T: Config + Send + Sync,
-        <<T as Config>::ExtrinsicParams as ExtrinsicParams<
-            <T as Config>::Index,
-            <T as Config>::Hash,
-        >>::OtherParams: std::default::Default + Send + Sync,
-        <T as Config>::Extrinsic: Send + Sync,
-        <T as Config>::Hash: Into<H256>,
-        <T as Config>::BlockNumber: TryInto<u32>,
+where
+    T: Config + Send + Sync,
+    <<T as Config>::ExtrinsicParams as ExtrinsicParams<
+        <T as Config>::Index,
+        <T as Config>::Hash,
+    >>::OtherParams: std::default::Default + Send + Sync,
+    <T as Config>::Extrinsic: Send + Sync,
+    <T as Config>::Hash: Into<H256>,
+    <T as Config>::BlockNumber: TryInto<u32>,
 {
     fn local_domain(&self) -> u32 {
         self.domain

@@ -1,5 +1,5 @@
-
 use crate::SubstrateError;
+use avail_subxt::api::nomad_home as home;
 use color_eyre::Result;
 use ethers_core::types::Signature;
 use nomad_core::{RawCommittedMessage, SignedUpdate, SignedUpdateWithMeta, Update, UpdateMeta};
@@ -9,7 +9,6 @@ use subxt::{
     dynamic::Value, ext::scale_value::scale::TypeId, storage::DynamicStorageAddress, Config,
     OnlineClient,
 };
-use avail_subxt::api::nomad_home as home;
 
 /// Nomad wrapper around `subxt::OnlineClient`
 #[derive(Clone)]
