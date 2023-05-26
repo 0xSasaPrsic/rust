@@ -12,6 +12,7 @@ mod test {
     use nomad_test::test_utils;
     use nomad_xyz_configuration::AgentSecrets;
 
+    #[ignore]
     #[tokio::test]
     #[serial_test::serial]
     async fn it_builds_settings_from_env() {

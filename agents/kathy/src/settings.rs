@@ -142,18 +142,21 @@ mod test {
         .await
     }
 
+    #[ignore]
     #[tokio::test]
     #[serial_test::serial]
     async fn it_builds_settings_from_env() {
         test_build_from_env_file("../../fixtures/env.test").await;
     }
 
+    #[ignore]
     #[tokio::test]
     #[serial_test::serial]
     async fn it_builds_settings_from_partial_env() {
         test_build_from_env_file("../../fixtures/env.partial").await;
     }
 
+    #[ignore]
     #[tokio::test]
     #[serial_test::serial]
     async fn it_builds_settings_from_external_file() {

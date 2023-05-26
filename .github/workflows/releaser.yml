@@ -1,0 +1,42 @@
+name: Releaser
+on:
+  push:
+    branches-ignore:
+      - '**'
+    tags:
+      - '*'
+
+jobs:
+  binary_linux_amd64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - uses: Swatinem/rust-cache@v1
+
+      - name: Build agents
+        run: cargo build --release
+
+      - name: Upload artifacts
+        shell: bash
+        run: |
+          mv target/release/updater target/release/updater-linux-amd64
+          mv target/release/watcher target/release/watcher-linux-amd64
+          mv target/release/processor target/release/processor-linux-amd64
+          mv target/release/relayer target/release/relayer-linux-amd64
+          pushd target/release/
+          tar czf updater-linux-amd64.tar.gz updater-linux-amd64
+          tar czf watcher-linux-amd64.tar.gz watcher-linux-amd64
+          tar czf processor-linux-amd64.tar.gz processor-linux-amd64
+          tar czf relayer-linux-amd64.tar.gz relayer-linux-amd64
+          popd
+      - uses: actions/upload-artifact@v2
+        with:
+          name: nomad-linux-amd64-tar
+          path: |
+            target/release/updater-linux-amd64.tar.gz
+            target/release/watcher-linux-amd64.tar.gz
+            target/release/processor-linux-amd64.tar.gz
+            target/release/relayer-linux-amd64.tar.gz

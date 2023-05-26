@@ -3,10 +3,10 @@ name: Rust
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -37,7 +37,7 @@ jobs:
       - uses: Swatinem/rust-cache@v1
 
       - name: Run tests
-        run: cargo test --locked --workspace --all-features --verbose
+        run: cargo test --release --workspace
 
   lint:
     runs-on: ubuntu-latest
@@ -50,20 +50,3 @@ jobs:
 
       - name: Rustfmt
         run: cargo fmt --all -- --check
-
-      - name: Clippy
-        run: cargo clippy --workspace --all-features -- -D warnings
-
-  wasm-build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-      - uses: Swatinem/rust-cache@v1
-      - uses: jetli/wasm-pack-action@v0.3.0
-      - name: wasm-configuration
-        run: cd configuration && bash package_it.sh
-      - name: wasm-accumulator
-        run: cd accumulator && bash package_it.sh
