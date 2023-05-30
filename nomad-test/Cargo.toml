@@ -1,6 +1,6 @@
 [package]
 name = "nomad-test"
-version = "0.1.0"
+version = "1.6.0"
 authors = ["Luke Tchang <ltchang@stanford.edu>"]
 edition = "2021"
 

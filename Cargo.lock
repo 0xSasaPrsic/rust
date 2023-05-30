@@ -14,7 +14,7 @@ dependencies = [
 
 [[package]]
 name = "accumulator"
-version = "0.1.0"
+version = "1.6.0"
 dependencies = [
  "affix",
  "ethers",
@@ -3341,7 +3341,7 @@ dependencies = [
 
 [[package]]
 name = "nomad-base"
-version = "0.1.0"
+version = "1.6.0"
 dependencies = [
  "affix",
  "async-trait",
@@ -3395,7 +3395,7 @@ dependencies = [
 
 [[package]]
 name = "nomad-core"
-version = "0.1.0"
+version = "1.6.0"
 dependencies = [
  "accumulator",
  "async-trait",
@@ -3427,7 +3427,7 @@ dependencies = [
 
 [[package]]
 name = "nomad-ethereum"
-version = "0.1.0"
+version = "1.6.0"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -3459,7 +3459,7 @@ dependencies = [
 
 [[package]]
 name = "nomad-substrate"
-version = "0.1.0"
+version = "1.6.0"
 dependencies = [
  "affix",
  "async-std",
@@ -3490,7 +3490,7 @@ dependencies = [
 
 [[package]]
 name = "nomad-test"
-version = "0.1.0"
+version = "1.6.0"
 dependencies = [
  "async-trait",
  "color-eyre",
@@ -3515,7 +3515,7 @@ dependencies = [
 
 [[package]]
 name = "nomad-types"
-version = "0.1.0"
+version = "1.6.0"
 dependencies = [
  "affix",
  "color-eyre",
@@ -3529,7 +3529,7 @@ dependencies = [
 
 [[package]]
 name = "nomad-xyz-configuration"
-version = "1.0.0-rc.1"
+version = "1.6.0"
 dependencies = [
  "affix",
  "dotenv",

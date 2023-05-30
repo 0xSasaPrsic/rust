@@ -1,8 +1,9 @@
 # Changelog
 
-### Unreleased
+### agents@1.6.0
 
 - use `std::fmt::Display` to log contracts
+- integrate substrate into agents
 
 ### agents@1.1.0
 

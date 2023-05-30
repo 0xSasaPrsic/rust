@@ -2,6 +2,9 @@
 
 ### Unreleased
 
+### agents@1.6.0
+
+- integrate substrate into agents
 - use `std::fmt::Display` to log contracts
 
 ### agents@1.1.0

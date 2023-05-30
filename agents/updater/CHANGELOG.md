@@ -2,6 +2,10 @@
 
 ### Unreleased
 
+### agents@1.6.0
+
+- intergate substrate into agents
+
 ### agents@1.1.0
 
 - make \*Settings::new async for optionally fetching config from a remote url

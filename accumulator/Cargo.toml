@@ -1,6 +1,6 @@
 [package]
 name = "accumulator"
-version = "0.1.0"
+version = "1.6.0"
 edition = "2021"
 authors = ["James Prestwich <james@nomad.xyz>", "The Nomad Developers <eng@nomad.xyz>"]
 description = "Nomad sparse merle tree"

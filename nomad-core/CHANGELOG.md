@@ -1,6 +1,6 @@
 # Changelog
 
-### Unreleased
+### v1.6.0
 
 - Remove `Signers` enum in favor of breaking into separate `EthereumSigners` and `SubstrateSigners` types for submitting txs
 - Remove `ChainCommunication` in favor of new `ChainCommunicationError` error wrapper in `nomad-base`
