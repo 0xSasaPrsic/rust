@@ -1,6 +1,6 @@
 # Changelog
 
-### Unreleased
+### v1.6.0
 
 - Have both Home/Replica and Home/Replica indexers return `Self::Error`
 - Add `Home` and `HomeIndexer` support for Substrate variants as well as allowing configuration of Substrate objects

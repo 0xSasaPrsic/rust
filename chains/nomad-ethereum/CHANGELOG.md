@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+### v1.6.0
+
 - Add `EthereumError` error enum to wrap ethers and gelato errors (ethereum-specific)
 - Make existing contract and indexer methods return `Result<_, EthereumError>` now instead of using old `nomad_core::ChainCommunicationError`
 - impl `std::fmt::Display` for `EthereumHome` and `EthereumReplica`

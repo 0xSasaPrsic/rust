@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+### agents@1.6.0
+
 - Change `double_update` to a NOP
 - Update `update` method with new max index field
 - `produce_update` checks that tree has at least 1 element (bug fix)

@@ -1,6 +1,6 @@
 # Changelog
 
-### Unreleased
+### v1.6.0
 
 - Add `availDemo.json` config and test to ensure it builds into `NomadConfig`
 - fix: SignerConf should not Display or Debug secrets

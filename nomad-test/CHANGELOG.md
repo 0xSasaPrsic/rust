@@ -1,6 +1,6 @@
 # Changelog
 
-### Unreleased
+### v1.6.0
 
 - Add new `MockError` type to account for changes making `ChainCommunication` a VM-specific wrapper
 - implement `Display` for mock contracts

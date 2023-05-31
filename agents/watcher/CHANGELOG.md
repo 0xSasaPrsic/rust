@@ -2,6 +2,9 @@
 
 ### Unreleased
 
+### agents@1.6.0
+
+- intergate substrate into agents
 - Add English description to XCM error log, change to use `Display`
 
 ### agents@1.1.0
