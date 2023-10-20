@@ -36,6 +36,8 @@ mod utils;
 pub use utils::*;
 
 mod error;
+mod header;
+
 pub use error::*;
 
 use ::nomad_core::{Home, HomeIndexer};

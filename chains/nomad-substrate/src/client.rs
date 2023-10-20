@@ -4,11 +4,9 @@ use color_eyre::Result;
 use ethers_core::types::Signature;
 use nomad_core::{RawCommittedMessage, SignedUpdate, SignedUpdateWithMeta, Update, UpdateMeta};
 use std::convert::TryInto;
-use subxt::ext::sp_runtime::traits::Header;
-use subxt::{
-    dynamic::Value, ext::scale_value::scale::TypeId, storage::DynamicStorageAddress, Config,
-    OnlineClient,
-};
+use avail_subxt::{AvailConfig, build_client};
+use subxt::{dynamic::Value, ext::scale_value::scale::TypeId, storage::DynamicStorageAddress, Config, OnlineClient, rpc_params, Error};
+use crate::header::Header1;
 
 /// Nomad wrapper around `subxt::OnlineClient`
 #[derive(Clone)]
@@ -26,8 +24,8 @@ impl<T: Config> std::ops::Deref for NomadOnlineClient<T> {
 }
 
 impl<T: Config> NomadOnlineClient<T>
-where
-    <T as Config>::BlockNumber: TryInto<u32>,
+    where
+        <T as Config>::BlockNumber: TryInto<u32>,
 {
     /// Instantiate a new NomadOnlineClient
     pub fn new(client: OnlineClient<T>, timelag: Option<u8>) -> Self {
@@ -36,8 +34,10 @@ where
 
     /// Get most recent block number
     pub async fn get_block_number(&self) -> Result<u32, SubstrateError> {
-        let header = self.rpc().header(None).await?.unwrap();
-        let u32_header = (*header.number()).try_into();
+        let params = rpc_params![];
+        let header: Header1 = self.client.rpc().request::<Header1>("chain_getHeader", params).await?;
+
+        let u32_header = (header.number).try_into();
 
         u32_header
             .map_err(|_| SubstrateError::CustomError("Couldn't convert block number to u32".into()))
@@ -147,3 +147,31 @@ where
             .collect())
     }
 }
+
+#[tokio::test]
+async fn test_get_block_number() {
+    let cl = OnlineClient::<AvailConfig>::from_url("wss://kate.avail.tools:443/ws").await;
+
+    match cl {
+        Ok(c) => {
+            let params = rpc_params![];
+            let header = c.rpc().request::<Header1>("chain_getHeader", params).await;
+            match header {
+                Ok(r) => {
+                    println!("Header: {:?}", r);
+                }
+                Err(e) => {
+                    println!("error {}", e);
+                }
+            }
+        }
+        Err(e) => {
+            println!("eeeerorrrrororo {}", e);
+        }
+    }
+
+
+    println!("Test end");
+}
+
+
