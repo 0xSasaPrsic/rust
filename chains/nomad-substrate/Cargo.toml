@@ -7,7 +7,7 @@ authors = ["Luke Tchang <luke@nomad.xyz>"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-avail-subxt = { git = "https://github.com/availproject/avail.git", tag = "nomad-v1.7.2" }
+avail-subxt = { git = "https://github.com/availproject/avail.git", branch = "nomad/test_fork" }
 #subxt = "0.24.0"
 subxt = { git = " https://github.com/0xSasaPrsic/subxt", branch = "v0.24.0" }
 affix = "0.1.2"

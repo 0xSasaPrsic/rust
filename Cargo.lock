@@ -353,7 +353,7 @@ checksum = "d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161b97fa"
 [[package]]
 name = "avail-subxt"
 version = "0.1.0"
-source = "git+https://github.com/availproject/avail.git?tag=nomad-v1.7.2#93243446166b05938569a9cc5430dc9649b6c110"
+source = "git+https://github.com/availproject/avail.git?branch=nomad/test_fork#574180a685a6492b9af074c18fcfa4fe93de96a2"
 dependencies = [
  "anyhow",
  "derive_more",
@@ -364,7 +364,7 @@ dependencies = [
  "scale-info",
  "serde 1.0.152",
  "structopt",
- "subxt 0.24.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "subxt 0.24.0",
  "tokio",
 ]
 
@@ -3481,7 +3481,7 @@ dependencies = [
  "serde 1.0.152",
  "serde_json",
  "sp-keyring",
- "subxt 0.24.0 (git+https://github.com/0xSasaPrsic/subxt?branch=v0.24.0)",
+ "subxt 0.24.0",
  "thiserror",
  "tokio",
  "tracing",
@@ -5956,33 +5956,6 @@ dependencies = [
 [[package]]
 name = "subxt"
 version = "0.24.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0a8757ee0e19f87e722577282ab1386c86592a4b13ff963b9c6ec4176348104c"
-dependencies = [
- "bitvec 1.0.0",
- "derivative",
- "frame-metadata",
- "futures",
- "hex",
- "jsonrpsee",
- "parity-scale-codec",
- "parking_lot 0.12.1",
- "scale-decode 0.4.0",
- "scale-info",
- "scale-value 0.6.0",
- "serde 1.0.152",
- "serde_json",
- "sp-core",
- "sp-runtime",
- "subxt-macro 0.24.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "subxt-metadata 0.24.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "thiserror",
- "tracing",
-]
-
-[[package]]
-name = "subxt"
-version = "0.24.0"
 source = "git+https://github.com/0xSasaPrsic/subxt?branch=v0.24.0#1e9d1198f9f8538987fbb03d4044d1a221829f21"
 dependencies = [
  "bitvec 1.0.0",
@@ -6000,8 +5973,8 @@ dependencies = [
  "serde_json",
  "sp-core",
  "sp-runtime",
- "subxt-macro 0.24.0 (git+https://github.com/0xSasaPrsic/subxt?branch=v0.24.0)",
- "subxt-metadata 0.24.0 (git+https://github.com/0xSasaPrsic/subxt?branch=v0.24.0)",
+ "subxt-macro 0.24.0",
+ "subxt-metadata 0.24.0",
  "thiserror",
  "tracing",
 ]
@@ -6027,24 +6000,6 @@ dependencies = [
 [[package]]
 name = "subxt-codegen"
 version = "0.24.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bb77f93e11e6ff3ff95fe33e3d24c27c342e16feca8ef47759993614ebe90d2c"
-dependencies = [
- "darling",
- "frame-metadata",
- "heck 0.4.0",
- "parity-scale-codec",
- "proc-macro-error",
- "proc-macro2",
- "quote",
- "scale-info",
- "subxt-metadata 0.24.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "syn",
-]
-
-[[package]]
-name = "subxt-codegen"
-version = "0.24.0"
 source = "git+https://github.com/0xSasaPrsic/subxt?branch=v0.24.0#1e9d1198f9f8538987fbb03d4044d1a221829f21"
 dependencies = [
  "darling",
@@ -6055,7 +6010,7 @@ dependencies = [
  "proc-macro2",
  "quote",
  "scale-info",
- "subxt-metadata 0.24.0 (git+https://github.com/0xSasaPrsic/subxt?branch=v0.24.0)",
+ "subxt-metadata 0.24.0",
  "syn",
 ]
 
@@ -6074,23 +6029,11 @@ dependencies = [
 [[package]]
 name = "subxt-macro"
 version = "0.24.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "051cc21d77a54ae944b872eafdf9edfe1d9134fdfcfc3477dc10f763c76564a9"
-dependencies = [
- "darling",
- "proc-macro-error",
- "subxt-codegen 0.24.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "syn",
-]
-
-[[package]]
-name = "subxt-macro"
-version = "0.24.0"
 source = "git+https://github.com/0xSasaPrsic/subxt?branch=v0.24.0#1e9d1198f9f8538987fbb03d4044d1a221829f21"
 dependencies = [
  "darling",
  "proc-macro-error",
- "subxt-codegen 0.24.0 (git+https://github.com/0xSasaPrsic/subxt?branch=v0.24.0)",
+ "subxt-codegen 0.24.0",
  "syn",
 ]
 
@@ -6099,18 +6042,6 @@ name = "subxt-metadata"
 version = "0.23.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1b7b9f8c2b42d3626dc18856727fc23cf6a04c4c044507735f55110e44a3986c"
-dependencies = [
- "frame-metadata",
- "parity-scale-codec",
- "scale-info",
- "sp-core",
-]
-
-[[package]]
-name = "subxt-metadata"
-version = "0.24.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5ed78d80db3a97d55e8b1cfecc1f6f9e21793a589d4e2e5f4fe2d6d5850c2e54"
 dependencies = [
  "frame-metadata",
  "parity-scale-codec",
