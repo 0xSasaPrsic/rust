@@ -4,11 +4,16 @@ use color_eyre::Result;
 use ethers_core::types::Signature;
 use nomad_core::{RawCommittedMessage, SignedUpdate, SignedUpdateWithMeta, Update, UpdateMeta};
 use std::convert::TryInto;
+use codec::Decode;
+// use hex_literal::hex;
 use subxt::ext::sp_runtime::traits::Header;
 use subxt::{
     dynamic::Value, ext::scale_value::scale::TypeId, storage::DynamicStorageAddress, Config,
     OnlineClient,
 };
+use subxt::events::EventDetails;
+use subxt::ext::sp_core::H256;
+use subxt::rpc::ChainBlock;
 
 /// Nomad wrapper around `subxt::OnlineClient`
 #[derive(Clone)]
@@ -26,8 +31,8 @@ impl<T: Config> std::ops::Deref for NomadOnlineClient<T> {
 }
 
 impl<T: Config> NomadOnlineClient<T>
-where
-    <T as Config>::BlockNumber: TryInto<u32>,
+    where
+        <T as Config>::BlockNumber: TryInto<u32>,
 {
     /// Instantiate a new NomadOnlineClient
     pub fn new(client: OnlineClient<T>, timelag: Option<u8>) -> Self {
@@ -145,5 +150,88 @@ where
                 message: ev.message,
             })
             .collect())
+    }
+}
+
+#[tokio::test]
+async fn test_event() {
+    let client = subxt::OnlineClient::<avail_subxt::AvailConfig>::from_url("wss://kate.avail.tools:443/ws").await;
+
+    match client {
+        Ok(cl) => {
+            println!("Client is created");
+
+            // for i in 574466u32..574567u32 {
+            //     println!("Testing for block: {}", i);
+
+
+                let hash = cl
+                    .rpc()
+                    .block_hash(Some(574560u32.into()))
+                    .await;
+
+
+                match hash {
+
+                    Ok(h) => {
+                        println!("Hash is {:?}", h);
+
+                       let block = cl.rpc().block(h).await;
+
+                        match block {
+                            Ok(bl) => {
+
+
+                                println!("{:?}", bl);
+                            }
+                            Err(_) => {}
+                        }
+
+                        match h {
+                            None => {}
+                            Some(ha) => {
+                                let dispatch_events_res_ = cl
+                                    .events()
+                                    .at(Some(ha))
+                                    .await;
+
+
+
+                                match dispatch_events_res_ {
+                                    Ok(dispatch_events_res) => {
+
+                                        // codec::Decode::decode
+
+                                        println!("{:?}", dispatch_events_res);
+
+                                        // let mut i = dispatch_events_res.iter();
+                                        // let f = i.next().unwrap().unwrap();
+                                        // // let as_f = f.as_event().unwrap().unwrap();
+                                        // println!("{}", f.pallet_name());
+                                        // println!("{}", f.pallet_index());
+                                        // println!("{:?}", as_f);
+
+                                        let ev: Result<Vec<_>, _> =
+                                            dispatch_events_res.find::<home::events::Dispatch>()
+                                            .into_iter()
+                                            .collect();
+                                        println!("Event {:?}", ev);
+                                    }
+                                    Err(e) => {
+                                        println!("Error filtering events {}", e);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    Err(e) => {
+                        println!("Error fetching hash {}", e)
+                    }
+                }
+            // }
+        }
+        Err(e) => {
+            println!("Error creating a client {}", e);
+        }
     }
 }

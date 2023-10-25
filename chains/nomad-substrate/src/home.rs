@@ -108,9 +108,11 @@ where
         to: u32,
     ) -> Result<Vec<RawCommittedMessage>, <Self as CommonIndexer>::Error> {
         let mut futs = FuturesOrdered::new();
+        info!("Start fetch_sorted_messages from block: {} to block {}", from, to);
         for block_number in from..to {
             futs.push(self.0.fetch_sorted_messages_for_block(block_number))
         }
+        info!("End fetch_sorted_messages from block: {} to block {}", from, to);
 
         // Flatten all Future<Output = Result<Vec<RawCommittedMessage>>> into
         // single Vec<RawCommittedMessage>

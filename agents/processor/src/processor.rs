@@ -231,10 +231,12 @@ impl Replica {
         use nomad_core::Replica;
 
         // First check locally to see if we've tried before
+        info!("Start previously_attempted");
         if self.db.previously_attempted(&message)? {
             info!("Message already attempted");
             return Ok(());
         }
+        info!("End previously_attempted");
 
         // Then check on-chain status
         let status = self.replica.message_status(message.to_leaf()).await?;
