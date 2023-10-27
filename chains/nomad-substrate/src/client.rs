@@ -9,6 +9,7 @@ use subxt::{
     dynamic::Value, ext::scale_value::scale::TypeId, storage::DynamicStorageAddress, Config,
     OnlineClient,
 };
+use tracing::log::warn;
 
 /// Nomad wrapper around `subxt::OnlineClient`
 #[derive(Clone)]
@@ -26,8 +27,8 @@ impl<T: Config> std::ops::Deref for NomadOnlineClient<T> {
 }
 
 impl<T: Config> NomadOnlineClient<T>
-where
-    <T as Config>::BlockNumber: TryInto<u32>,
+    where
+        <T as Config>::BlockNumber: TryInto<u32>,
 {
     /// Instantiate a new NomadOnlineClient
     pub fn new(client: OnlineClient<T>, timelag: Option<u8>) -> Self {
@@ -82,6 +83,11 @@ where
             .into_iter()
             .collect();
 
+        // Do not break if parsing events has error but return empty
+        if update_events_res.is_err() {
+            warn!("Update updates filter event error {:?}", update_events_res);
+            return Ok(vec![]);
+        }
         let update_events = update_events_res?;
 
         // TODO: sort events
@@ -131,6 +137,13 @@ where
             .find::<home::events::Dispatch>() // TODO: remove dependency on avail metadata
             .into_iter()
             .collect();
+
+        // Do not break if parsing events has error but return empty
+        if dispatch_events_res.is_err() {
+            warn!("Update messages filter event error {:?}", dispatch_events_res);
+            return Ok(vec![]);
+        }
+
 
         let dispatch_events = dispatch_events_res?;
 
