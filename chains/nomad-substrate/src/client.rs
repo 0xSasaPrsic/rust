@@ -9,7 +9,6 @@ use subxt::{
     dynamic::Value, ext::scale_value::scale::TypeId, storage::DynamicStorageAddress, Config,
     OnlineClient,
 };
-use tracing::log::warn;
 
 /// Nomad wrapper around `subxt::OnlineClient`
 #[derive(Clone)]
@@ -67,6 +66,10 @@ impl<T: Config> NomadOnlineClient<T>
         &self,
         block_number: u32,
     ) -> Result<Vec<SignedUpdateWithMeta>, SubstrateError> {
+        if block_number == 574560u32 {
+            return Ok(vec![]);
+        }
+
         // Get hash for block number
         let hash = self
             .rpc()
@@ -83,11 +86,6 @@ impl<T: Config> NomadOnlineClient<T>
             .into_iter()
             .collect();
 
-        // Do not break if parsing events has error but return empty
-        if update_events_res.is_err() {
-            warn!("Update updates filter event error {:?}", update_events_res);
-            return Ok(vec![]);
-        }
         let update_events = update_events_res?;
 
         // TODO: sort events
@@ -122,6 +120,10 @@ impl<T: Config> NomadOnlineClient<T>
         &self,
         block_number: u32,
     ) -> Result<Vec<RawCommittedMessage>, SubstrateError> {
+        if block_number == 574560u32 {
+            return Ok(vec![]);
+        }
+
         // Get hash for block number
         let hash = self
             .rpc()
@@ -137,13 +139,6 @@ impl<T: Config> NomadOnlineClient<T>
             .find::<home::events::Dispatch>() // TODO: remove dependency on avail metadata
             .into_iter()
             .collect();
-
-        // Do not break if parsing events has error but return empty
-        if dispatch_events_res.is_err() {
-            warn!("Update messages filter event error {:?}", dispatch_events_res);
-            return Ok(vec![]);
-        }
-
 
         let dispatch_events = dispatch_events_res?;
 
