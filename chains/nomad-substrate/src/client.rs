@@ -26,8 +26,8 @@ impl<T: Config> std::ops::Deref for NomadOnlineClient<T> {
 }
 
 impl<T: Config> NomadOnlineClient<T>
-where
-    <T as Config>::BlockNumber: TryInto<u32>,
+    where
+        <T as Config>::BlockNumber: TryInto<u32>,
 {
     /// Instantiate a new NomadOnlineClient
     pub fn new(client: OnlineClient<T>, timelag: Option<u8>) -> Self {
@@ -82,9 +82,10 @@ where
             .into_iter()
             .collect();
 
-        let update_events = update_events_res?;
+        let mut update_events = update_events_res?;
 
-        // TODO: sort events
+        // explicit sort all updates so that previous updates are linked prev -> new root
+        update_events.sort_by(|a, b| a.previous_root.cmp(&b.previous_root));
 
         // Map update events into SignedUpdates with meta
         Ok(update_events
@@ -132,9 +133,10 @@ where
             .into_iter()
             .collect();
 
-        let dispatch_events = dispatch_events_res?;
+        let mut dispatch_events = dispatch_events_res?;
 
-        // TODO: sort events
+        // sort events by the leaf of the index which is the order in which they were added to the trie
+        dispatch_events.sort_by_key(|d| d.leaf_index);
 
         // Map dispatches into raw committed messages
         Ok(dispatch_events
