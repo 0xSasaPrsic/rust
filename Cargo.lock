@@ -353,7 +353,7 @@ checksum = "d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161b97fa"
 [[package]]
 name = "avail-subxt"
 version = "0.1.0"
-source = "git+https://github.com/availproject/avail.git?tag=nomad-v1.7.2#93243446166b05938569a9cc5430dc9649b6c110"
+source = "git+https://github.com/availproject/avail.git?branch=nomad-v1.8.0.0#77e3e7ae8738d61e4e6292ff3c02975b0a0132ca"
 dependencies = [
  "anyhow",
  "derive_more",
@@ -6579,7 +6579,7 @@ version = "1.6.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "97fee6b57c6a41524a810daee9286c02d7752c4253064d0b05472833a438f675"
 dependencies = [
- "cfg-if 1.0.0",
+ "cfg-if 0.1.10",
  "rand 0.8.5",
  "static_assertions",
 ]
