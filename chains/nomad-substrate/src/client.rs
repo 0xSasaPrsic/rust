@@ -1,9 +1,9 @@
-use std::collections::HashMap;
 use crate::SubstrateError;
 use avail_subxt::api::nomad_home as home;
 use color_eyre::Result;
-use ethers_core::types::{H256, Signature};
+use ethers_core::types::{Signature, H256};
 use nomad_core::{RawCommittedMessage, SignedUpdate, SignedUpdateWithMeta, Update, UpdateMeta};
+use std::collections::HashMap;
 use std::convert::TryInto;
 use subxt::ext::sp_runtime::traits::Header;
 use subxt::{
@@ -27,8 +27,8 @@ impl<T: Config> std::ops::Deref for NomadOnlineClient<T> {
 }
 
 impl<T: Config> NomadOnlineClient<T>
-    where
-        <T as Config>::BlockNumber: TryInto<u32>,
+where
+    <T as Config>::BlockNumber: TryInto<u32>,
 {
     /// Instantiate a new NomadOnlineClient
     pub fn new(client: OnlineClient<T>, timelag: Option<u8>) -> Self {
@@ -163,10 +163,19 @@ fn sort_update_events(update_events: Vec<home::events::Update>) -> Vec<home::eve
         return update_events;
     }
 
-    let mut map_new_roots: HashMap<H256, home::events::Update> = update_events.iter().map(|event| (event.new_root, event.clone())).collect();
-    let mut map_previous_roots: HashMap<H256, home::events::Update> = update_events.iter().map(|event| (event.previous_root, event.clone())).collect();
+    let mut map_new_roots: HashMap<H256, home::events::Update> = update_events
+        .iter()
+        .map(|event| (event.new_root, event.clone()))
+        .collect();
+    let mut map_previous_roots: HashMap<H256, home::events::Update> = update_events
+        .iter()
+        .map(|event| (event.previous_root, event.clone()))
+        .collect();
 
-    let first_element = update_events.iter().find(|event| !map_new_roots.contains_key(&event.previous_root)).expect("there must be first element");
+    let first_element = update_events
+        .iter()
+        .find(|event| !map_new_roots.contains_key(&event.previous_root))
+        .expect("there must be first element");
 
     let mut sorted: Vec<home::events::Update> = Vec::with_capacity(update_events.len());
     sorted.push(first_element.clone());
