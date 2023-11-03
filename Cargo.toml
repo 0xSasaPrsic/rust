@@ -17,8 +17,8 @@ members = [
     "agents/relayer",
     "agents/watcher",
     "agents/processor",
-    "tools/kms-cli",
-    "tools/nomad-cli",
-    "tools/balance-exporter",
-    "tools/killswitch",
+#    "tools/kms-cli",
+#    "tools/nomad-cli",
+#    "tools/balance-exporter",
+#    "tools/killswitch",
 ]
