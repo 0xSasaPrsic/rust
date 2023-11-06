@@ -2,6 +2,11 @@
 
 ### Unreleased
 
+### agents@1.8.0
+
+- Add event sorting
+- Update Avail api
+
 ### agents@1.6.0
 
 - intergate substrate into agents
