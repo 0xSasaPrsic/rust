@@ -1,8 +1,9 @@
 use crate::SubstrateError;
 use avail_subxt::api::nomad_home as home;
 use color_eyre::Result;
-use ethers_core::types::Signature;
+use ethers_core::types::{Signature, H256};
 use nomad_core::{RawCommittedMessage, SignedUpdate, SignedUpdateWithMeta, Update, UpdateMeta};
+use std::collections::HashMap;
 use std::convert::TryInto;
 use subxt::ext::sp_runtime::traits::Header;
 use subxt::{
@@ -78,16 +79,18 @@ where
             .events()
             .at(Some(hash))
             .await?
-            .find::<home::events::Update>() // TODO: remove dependency on avail metadata
+            .find::<home::events::Update>()
             .into_iter()
             .collect();
 
         let update_events = update_events_res?;
 
-        // TODO: sort events
+        // explicit sort all updates so that previous updates are linked prev -> new root
+        // multiple update events in the same block should be rare or absent
+        let sorted_update_events: Vec<home::events::Update> = sort_update_events(update_events);
 
         // Map update events into SignedUpdates with meta
-        Ok(update_events
+        Ok(sorted_update_events
             .into_iter()
             .map(|ev| {
                 let signature = Signature::try_from(ev.signature.as_ref())
@@ -132,9 +135,10 @@ where
             .into_iter()
             .collect();
 
-        let dispatch_events = dispatch_events_res?;
+        let mut dispatch_events = dispatch_events_res?;
 
-        // TODO: sort events
+        // sort events by the leaf of the index which is the order in which they were added to the trie
+        dispatch_events.sort_by_key(|d| d.leaf_index);
 
         // Map dispatches into raw committed messages
         Ok(dispatch_events
@@ -146,4 +150,94 @@ where
             })
             .collect())
     }
+}
+
+/// sort_update_events sorts events based on the previous and new root. In most cases there will be
+/// only one event per block.
+fn sort_update_events(update_events: Vec<home::events::Update>) -> Vec<home::events::Update> {
+    if update_events.is_empty() {
+        return vec![];
+    }
+
+    if update_events.len() == 1 {
+        return update_events;
+    }
+
+    let mut map_new_roots: HashMap<H256, home::events::Update> = update_events
+        .iter()
+        .map(|event| (event.new_root, event.clone()))
+        .collect();
+    let mut map_previous_roots: HashMap<H256, home::events::Update> = update_events
+        .iter()
+        .map(|event| (event.previous_root, event.clone()))
+        .collect();
+
+    let first_element = update_events
+        .iter()
+        .find(|event| !map_new_roots.contains_key(&event.previous_root))
+        .expect("there must be first element");
+
+    let mut sorted: Vec<home::events::Update> = Vec::with_capacity(update_events.len());
+    sorted.push(first_element.clone());
+
+    for _ in update_events {
+        let next = sorted.last().unwrap();
+        if let Some(previous) = map_previous_roots.get(&next.new_root) {
+            sorted.push(previous.clone())
+        }
+    }
+
+    return sorted;
+}
+
+#[test]
+fn test_sorting_of_events() {
+    let update_events: Vec<home::events::Update> = vec![
+        home::events::Update {
+            home_domain: 2000,
+            previous_root: H256([5u8; 32]),
+            new_root: H256([1u8; 32]),
+            signature: vec![],
+        },
+        home::events::Update {
+            home_domain: 2000,
+            previous_root: H256([7u8; 32]),
+            new_root: H256([5u8; 32]),
+            signature: vec![],
+        },
+        home::events::Update {
+            home_domain: 2000,
+            previous_root: H256([1u8; 32]),
+            new_root: H256([3u8; 32]),
+            signature: vec![],
+        },
+    ];
+
+    let sorted = sort_update_events(update_events);
+
+    // assert_eq!(update_events.len(), sorted.len(), "length not equal");
+    assert_eq!(H256([5u8; 32]), sorted[0].new_root, "wrong root position");
+    assert_eq!(H256([1u8; 32]), sorted[1].new_root, "wrong root position");
+    assert_eq!(H256([3u8; 32]), sorted[2].new_root, "wrong root position");
+
+    let single_element_sorted = sort_update_events(vec![{
+        home::events::Update {
+            home_domain: 2000,
+            previous_root: H256([5u8; 32]),
+            new_root: H256([1u8; 32]),
+            signature: vec![4u8],
+        }
+    }]);
+
+    assert_eq!(1, single_element_sorted.len(), "must have one element");
+    assert_eq!(2000, single_element_sorted[0].home_domain);
+    assert_eq!(H256([5u8; 32]), single_element_sorted[0].previous_root);
+    assert_eq!(H256([1u8; 32]), single_element_sorted[0].new_root);
+    assert_eq!(1, single_element_sorted[0].signature.len());
+    assert_eq!(4u8, single_element_sorted[0].signature[0]);
+
+    let empty = sort_update_events(vec![]);
+    assert_eq!(0, empty.len(), "must be empty");
+
+    // println!("{:?}", sorted);
 }
