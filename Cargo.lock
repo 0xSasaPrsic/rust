@@ -353,7 +353,7 @@ checksum = "d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161b97fa"
 [[package]]
 name = "avail-subxt"
 version = "0.1.0"
-source = "git+https://github.com/availproject/avail.git?tag=nomad-v1.7.2#93243446166b05938569a9cc5430dc9649b6c110"
+source = "git+https://github.com/availproject/avail.git?branch=nomad-v1.8.0.0#77e3e7ae8738d61e4e6292ff3c02975b0a0132ca"
 dependencies = [
  "anyhow",
  "derive_more",
